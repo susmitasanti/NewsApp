@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
+import LoadingBar from 'react-top-loading-bar'
+
 
 export default class News extends Component {
     capitalizeFirstLetter = (string)=> {
@@ -14,40 +16,52 @@ export default class News extends Component {
                 articles: [],
                 loading: false,
                 page:1,
+                progress:10
             }
             document.title=`NewsApp-${this.capitalizeFirstLetter(this.props.category)}`
         } 
 
 
        async componentDidMount(){
-            let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=bcb7ffda785540c5881aa5787bafd6dc&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-            this.setState({loading:true})
+            let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+            this.setState({loading:true, progress:20})
             {this.state.loading && <Spinner />}
             let data=await fetch(url);
+            this.setState({progress:40})
             let parsedData = await data.json();
+            this.setState({progress:60})
+
             this.setState({
                 articles: parsedData.articles, 
                 totalResults:parsedData.totalResults, 
-                loading:false})
+                loading:false,
+                progress:100
+        })
         }
 
         async UpdatePage(){
-            let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=bcb7ffda785540c5881aa5787bafd6dc&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-            this.setState({loading:true})
+            let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+            this.setState({loading:true, progress:20})
             {this.state.loading && <Spinner />}
             let data=await fetch(url);
+            this.setState({progress:40})
+
             let parsedData = await data.json();
+            this.setState({progress:60})
+
             this.setState({
                 articles: parsedData.articles,
                 totalResults:parsedData.totalResults, 
-                loading:false
+                loading:false,
+                progress:100
+
             })
         }
 
         handleNext= async ()=>{
             console.log("Next");
             
-            // let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=bcb7ffda785540c5881aa5787bafd6dc&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+            // let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
             // this.setState({loading:true})
             // {this.state.loading && <Spinner />}
             // let data=await fetch(url);
@@ -64,7 +78,7 @@ export default class News extends Component {
 
         handlePrev= async ()=>{
             console.log("prev")
-            // let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=bcb7ffda785540c5881aa5787bafd6dc&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
+            // let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
             // this.setState({loading:true})
             // {this.state.loading && <Spinner />}
             // let data=await fetch(url);
@@ -88,7 +102,15 @@ export default class News extends Component {
     return (
       <div  className='container my-3' align="center">
         <h2 align="center" style={{margin: "35px", color:this.props.currentMode==="light"?"black": "white"}}>NewsApp-{this.capitalizeFirstLetter(this.props.category)}</h2>
-        {this.state.loading && <Spinner />} 
+        {this.state.loading && <Spinner />}
+        <div>
+      <LoadingBar
+        color='#f11946'
+        height={3}
+        progress={this.state.progress}
+        shadow= {true}
+      />
+      </div>
         <div className="row">
         {!this.state.loading && this.state.articles.map((element)=>{
             return <div className="col md-3" key={element.url}>
