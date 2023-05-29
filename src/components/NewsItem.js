@@ -14,7 +14,7 @@ export default class NewsItem extends Component {
             <h5 className="card-title">{this.props.title}...</h5>
             <p className="card-text">{this.props.description}...</p>
             <p class="card-text"><small class="text-body-secondary">Source: {this.props.source}<br/>Author: {this.props.author}<br/> On {this.props.date}</small></p>
-            <a href={this.props.newsUrl} target="_blank" className="btn btn-dark">Read more</a>
+            <a href={this.props.newsUrl} target="_blank" className="btn btn" style={{backgroundColor:this.props.currentMode==="light"?"#adb5bd":"black", color:this.props.currentMode==="light"?"black":"white"}}>Read more</a>
         </div>
         </div>
 

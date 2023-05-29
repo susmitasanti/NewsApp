@@ -3,17 +3,20 @@ import NewsItem from './NewsItem'
 import Spinner from './Spinner';
 
 export default class News extends Component {
-    
+    capitalizeFirstLetter = (string)=> {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-        constructor(){
-            super();
+        constructor(props){
+            super(props);
             console.log("Hullo, this is a constructor.")
             this.state={
                 articles: [],
                 loading: false,
                 page:1,
             }
-        }
+            document.title=`NewsApp-${this.capitalizeFirstLetter(this.props.category)}`
+        } 
 
 
        async componentDidMount(){
@@ -84,12 +87,12 @@ export default class News extends Component {
   render() {
     return (
       <div  className='container my-3' align="center">
-        <h2 align="center" style={{margin: "35px"}}>NewsApp- Top Headlines</h2>
+        <h2 align="center" style={{margin: "35px", color:this.props.currentMode==="light"?"black": "white"}}>NewsApp-{this.capitalizeFirstLetter(this.props.category)}</h2>
         {this.state.loading && <Spinner />} 
         <div className="row">
         {!this.state.loading && this.state.articles.map((element)=>{
             return <div className="col md-3" key={element.url}>
-            <NewsItem  title={element.title?element.title.slice(0, 20):""} description={element.description?element.description.slice(0, 90):""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author?element.author:"Unknown"} date={element.publishedAt?new Date(element.publishedAt).toGMTString():"Unknown"} source={element.source.name?element.source.name:"Unknown"}/>
+            <NewsItem  currentMode={this.props.currentMode} title={element.title?element.title.slice(0, 20):""} description={element.description?element.description.slice(0, 90):""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author?element.author:"Unknown"} date={element.publishedAt?new Date(element.publishedAt).toGMTString():"Unknown"} source={element.source.name?element.source.name:"Unknown"}/>
             </div>
 
         })}  

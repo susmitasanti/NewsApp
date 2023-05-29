@@ -1,33 +1,67 @@
 import Navbar from './components/Navbar';
 import './App.css';
-import Spinner from './components/Spinner';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
 import React, { Component } from 'react'
 import News from './components/News';
 
+
+
 export default class App extends Component {
+  constructor(){
+    super();
+    this.state={
+      currentMode:"light",
+    }
+    document.body.style.backgroundColor="white"
+  }
+
+  changeModeL = async() =>{
+    this.setState({
+      currentMode:"light",
+    })
+    document.body.style.backgroundColor="white"
+  }
+  changeModeD = async() => {
+    this.setState({
+      currentMode:"dark",
+    })
+    document.body.style.backgroundColor="#343a40"
+  }
+
+  changeModeDG = async() =>{
+    this.setState({
+      currentMode:"darkGreen",
+    })
+    document.body.style.backgroundColor="#3a5a40"
+  }
+
+  changeModeDB = async() =>{
+    this.setState({
+      currentMode:"darkBlue",
+    })
+    document.body.style.backgroundColor="#1d3557"
+  }
   render() {
     return (
-      // bcb7ffda785540c5881aa5787bafd6dc
       <div>
         <BrowserRouter>
-        <Navbar/>
+        <Navbar currentMode={this.state.currentMode} darkMode={this.changeModeD} darkGreenMode={this.changeModeDG} lightMode={this.changeModeL} darkBlueMode={this.changeModeDB}/>
         <Routes>
-        <Route exact path='/' element={<News key="general" pageSize={8} country="in" category="general"/>}></Route>
-        <Route exact path='/business' element={<News key="business" pageSize={8} country="in" category="business"/>}></Route>
-        <Route exact path='/entertainment' element={<News key="entertainment" pageSize={8} country="in" category="entertainment"/>}></Route>
-        <Route exact path='/general' element={<News key="general" pageSize={8} country="in" category="general"/>}></Route>
-        <Route exact path='/health' element={<News key="health" pageSize={8} country="in" category="health"/>}></Route>
-        <Route exact path='/science' element={<News key="science" pageSize={8} country="in" category="science"/>}></Route>
-        <Route exact path='/sports' element={<News key="sports" pageSize={8} country="in" category="sports"/>}></Route>
-        <Route exact path='/technology' element={<News key="technology" pageSize={8} country="in" category="technology"/>}></Route>
+        <Route exact path='/' element={<News currentMode={this.state.currentMode} key="general" pageSize={8} country="in" category="general" heading="General"/>}></Route>
+        <Route exact path='/business' element={<News currentMode={this.state.currentMode} key="business" pageSize={8} country="in" category="business" heading="Business"/>}></Route>
+        <Route exact path='/entertainment' element={<News currentMode={this.state.currentMode} key="entertainment" pageSize={8} country="in" category="entertainment" heading="Entertainment"/>}></Route>
+        <Route exact path='/general' element={<News currentMode={this.state.currentMode} key="general" pageSize={8} country="in" category="general" heading="General"/>}></Route>
+        <Route exact path='/health' element={<News currentMode={this.state.currentMode} key="health" pageSize={8} country="in" category="health" heading="Health"/>}></Route>
+        <Route exact path='/science' element={<News currentMode={this.state.currentMode} key="science" pageSize={8} country="in" category="science" heading="Science"/>}></Route>
+        <Route exact path='/sports' element={<News currentMode={this.state.currentMode} key="sports" pageSize={8} country="in" category="sports" heading="Sports"/>}></Route>
+        <Route exact path='/technology' element={<News currentMode={this.state.currentMode} key="technology" pageSize={8} country="in" category="technology" heading="Technology"/>}></Route>
 
 
 
         
         </Routes>
         </BrowserRouter>
+        
       </div>
     )
   }
