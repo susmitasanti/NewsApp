@@ -100,6 +100,7 @@ export default class News extends Component {
 
   render() {
     return (
+       
       <div  className='container my-3' align="center">
         <h2 align="center" style={{margin: "35px", color:this.props.currentMode==="light"?"black": "white"}}>NewsApp-{this.capitalizeFirstLetter(this.props.category)}</h2>
         {this.state.loading && <Spinner />}
